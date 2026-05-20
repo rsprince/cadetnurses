@@ -1,0 +1,32 @@
+.site-main {
+	min-height: 100dvh;
+	display: grid;
+	place-items: center;
+}
+
+.hero {
+	width: min(950px, 100% - 2.5rem);
+	text-align: center;
+}
+
+.hero h1 {
+	margin: 0;
+	font-size: clamp(2.3rem, 10vw, 6.4rem);
+	line-height: 1.02;
+	letter-spacing: 0.03em;
+	text-transform: lowercase;
+}
+
+.subtitle {
+	margin: 1.25rem auto 0;
+	max-width: 70ch;
+	font-size: clamp(1rem, 2vw, 1.35rem);
+	line-height: 1.5;
+	color: var(--muted-ink);
+}
+
+@media (max-width: 640px) {
+	.hero {
+		width: min(950px, 100% - 1.5rem);
+	}
+}

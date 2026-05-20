@@ -1,0 +1,136 @@
+:host {
+	--header-height: 72px;
+	--footer-height: 64px;
+	--bg-start: #f2efe8;
+	--bg-end: #e0e8f0;
+	--ink: #102335;
+	--muted-ink: #274864;
+	--surface: rgba(255, 255, 255, 0.9);
+
+	display: block;
+	min-height: 100dvh;
+	background: radial-gradient(circle at 15% 15%, #fff7e8 0%, transparent 45%),
+		radial-gradient(circle at 80% 85%, #d9e9fa 0%, transparent 40%),
+		linear-gradient(135deg, var(--bg-start), var(--bg-end));
+	color: var(--ink);
+}
+
+.inner-wrap {
+	width: min(1120px, 100% - 2rem);
+	margin: 0 auto;
+}
+
+.site-header,
+.site-footer {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	background: var(--surface);
+	backdrop-filter: blur(6px);
+	border-color: rgba(16, 35, 53, 0.15);
+}
+
+.site-header {
+	top: 0;
+	height: var(--header-height);
+	border-bottom: 1px solid;
+}
+
+.site-footer {
+	bottom: 0;
+	height: var(--footer-height);
+	border-top: 1px solid;
+}
+
+.site-header .inner-wrap,
+.site-footer .inner-wrap {
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.brand,
+.site-footer p {
+	margin: 0;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: var(--muted-ink);
+}
+
+.site-nav {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 1.15rem;
+}
+
+.site-nav a {
+	color: var(--ink);
+	text-decoration: none;
+	font-size: 0.92rem;
+	font-weight: 500;
+	line-height: 1;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+	color: var(--muted-ink);
+	text-decoration: underline;
+	text-underline-offset: 0.2rem;
+}
+
+.page.wrapper {
+	padding-top: var(--header-height);
+	padding-bottom: var(--footer-height);
+	min-height: 100dvh;
+	box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+	.site-nav {
+		gap: 0.8rem;
+	}
+
+	.site-nav a {
+		font-size: 0.86rem;
+	}
+}
+
+@media (max-width: 640px) {
+	:host {
+		--header-height: 64px;
+		--footer-height: 58px;
+	}
+
+	.site-header .inner-wrap {
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: center;
+		row-gap: 0.3rem;
+		padding-block: 0.4rem;
+	}
+
+	.brand {
+		width: 100%;
+		text-align: center;
+		font-size: 0.72rem;
+		letter-spacing: 0.05em;
+	}
+
+	.site-nav {
+		width: 100%;
+		margin-left: 0;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.55rem 0.9rem;
+	}
+
+	.site-nav a,
+	.site-footer p {
+		font-size: 0.75rem;
+		letter-spacing: 0.03em;
+	}
+}

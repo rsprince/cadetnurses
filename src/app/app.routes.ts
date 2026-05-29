@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { People } from './people/people';
 import { Home } from './home/home';
+import { About } from './about/about';
 
 export const routes: Routes = [
     // "loadComponent:" lazy-loads the standalone People component when the user visits /people.
@@ -25,5 +26,9 @@ export const routes: Routes = [
 		path: '',
 		redirectTo: '/home',
 		pathMatch: 'full'
+	},
+	    {
+		path: 'about',
+		component: About,
 	}
 ];

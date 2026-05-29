@@ -1,1 +1,55 @@
-<h1>Profiles</h1>
+<h1>Cadet Nurse Profiles</h1>
+
+<!-- Debug -->
+ <!-- <h2>Debug</h2>
+ {{ cadetNurses().length }}
+<pre>{{ cadetNurses()[0] | json }}</pre> -->
+
+<mat-tab-group>
+
+	<mat-tab label="Featured Profile">
+		<div class="person">
+			<h2>{{ featuredProfile().title }}</h2>
+					<p>
+					{{ featuredProfile().fields?.nursingSchool }} -
+
+					Graduated:
+					{{ featuredProfile().fieldLabels?.graduationYear }}
+				</p>
+				<div [innerHTML]="featuredProfile().bodyHtml"></div>
+		</div>
+	</mat-tab>
+
+  <mat-tab label="View All">
+	    @for (cadet of pagedCadetNurses(); track cadet.nid) {
+			<div class="person">
+					<h3>{{ cadet.title }}</h3>
+					<p>
+					{{ cadet.fields?.nursingSchool }} -
+					Graduated:
+					{{ cadet.fieldLabels?.graduationYear }}
+					</p>
+			</div>
+    }
+		<mat-paginator [length]="cadetNurses().length"
+			[pageIndex]="pageIndex()"
+			[pageSize]="pageSize()"
+			[pageSizeOptions]="[5, 10, 25, 100]"
+			(page)="onPageChange($event)"
+			aria-label="Select page">
+		</mat-paginator>  
+  </mat-tab>
+
+  <mat-tab label="Search Profiles">
+		<p>
+			To search for a profile, please use the search form below. You can search by name, nursing school, or graduation year.
+		</p>
+  </mat-tab>
+
+	<mat-tab label="Add a Profile">
+		<p>
+			To add a profile, please fill out the form below and submit it. Your submission will be reviewed by our team before being published on the site.
+		</p>
+  </mat-tab>
+
+</mat-tab-group>

@@ -1,32 +1,111 @@
+.jumbotron {
+	width: 100vw;
+	margin-inline: calc(50% - 50vw);
+	background:
+		linear-gradient(180deg, rgba(16, 35, 53, 0.18) 0%, rgba(16, 35, 53, 0.58) 100%),
+		url('/images/jumbotron/join-the-us-cadet-nurse-corps.jpg') center center / cover no-repeat;
+	box-sizing: border-box;
+	min-height: clamp(360px, 54vh, 520px);
+	padding: clamp(4.5rem, 9vh, 6rem) 1.5rem 3rem;
+	color: white;
+	text-shadow: 0 4px 18px rgba(16, 35, 53, 0.55);
+}
+
 .site-main {
-	min-height: 100dvh;
+	width: 100%;
+}
+
+.hero-content {
+	width: min(960px, 100%);
+	margin: 0 auto;
 	display: grid;
-	place-items: center;
-}
-
-.hero {
-	width: min(950px, 100% - 2.5rem);
+	justify-items: center;
 	text-align: center;
+	gap: 1rem;
 }
 
-.hero h1 {
+.eyebrow {
 	margin: 0;
-	font-size: clamp(2.3rem, 10vw, 6.4rem);
-	line-height: 1.02;
-	letter-spacing: 0.03em;
-	text-transform: lowercase;
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #ffd9e1;
+}
+
+.hero-content h1 {
+	margin: 0;
+	// The max-width values for the headline are based on character count rather than viewport width, to maintain optimal readability across all screen sizes.
+	max-width: 20ch;
+	/*
+	Keeps the headline responsive by scaling with the viewport,
+	while enforcing readable minimum and maximum sizes.
+	Responsive size: min 2.1rem, preferred 5.25vw, max 4.35rem.
+	*/
+	font-size: clamp(2.1rem, 5.25vw, 4.35rem);
+	line-height: 0.94;
+	letter-spacing: -0.04em;
 }
 
 .subtitle {
-	margin: 1.25rem auto 0;
-	max-width: 70ch;
-	font-size: clamp(1rem, 2vw, 1.35rem);
-	line-height: 1.5;
-	color: var(--muted-ink);
+	margin: 0;
+	max-width: 58ch;
+	font-size: clamp(1rem, 2vw, 1.25rem);
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.94);
 }
 
-@media (max-width: 640px) {
-	.hero {
-		width: min(950px, 100% - 1.5rem);
+
+.home-columns {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+	justify-content: space-between;
+	align-items: stretch;
+	padding: 3rem 0 4rem;
+	// background: #ffffff;
+	color: #102335;
+}
+
+.home-column {
+	flex: 1 1 240px;
+	padding: 1.75rem;
+	border: 1px solid #ece7ea;
+	background: #ffffff;
+	box-shadow: 0 10px 28px rgba(16, 35, 53, 0.06);
+}
+
+.home-column h2 {
+	margin: 0 0 0.75rem;
+	font-size: 1.35rem;
+	color: #ba005c;
+}
+
+.home-column p {
+	margin: 0;
+	line-height: 1.7;
+	color: #44505b;
+}
+
+@media (max-width: 900px) {
+	.home-columns {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 720px) {
+	.jumbotron {
+		padding-top: 5.5rem;
+		padding-bottom: 2.5rem;
+	}
+
+	.hero-content h1 {
+		max-width: 11ch;
+	}
+
+	.home-columns {
+		padding-top: 2.25rem;
+		padding-bottom: 3rem;
 	}
 }

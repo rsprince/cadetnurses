@@ -1,0 +1,13 @@
+<!-- Debug -->
+ <!-- <h2>Debug</h2> -->
+ <!-- {{ aboutStory().length }}
+<pre>{{ aboutStory() | json }}</pre> -->
+
+<h1>About USCadetNurse.org Foundation</h1>
+<!--
+  Guard rendering until the story object is loaded.
+  This prevents null access before async data arrives.
+-->
+@if (aboutStory()) {
+  <div [innerHTML]="aboutStory()?.bodyHtml"></div>
+}

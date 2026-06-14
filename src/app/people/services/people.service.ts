@@ -17,6 +17,24 @@ export class PeopleService {
     return this.data;
   }
 
+  getProfileByName(name: string) {
+    this.data = this.http.get<any[]>(this.url)
+    .pipe(
+      map((records) => {
+        const matches = records
+          .filter((record) =>
+            record?.type === 'people' &&
+            record?.fieldLabels?.relationshipStatus === 'Cadet Nurse' &&
+            record?.title?.toLowerCase().includes(name.toLowerCase())
+          )
+          .sort((a, b) => a.fieldLabels?.lastNameInNursingSchool?.localeCompare(b.fieldLabels?.lastNameInNursingSchool) || 0);
+
+        return matches[0];
+      })
+    );
+    return this.data;
+  }
+
   // get all stories where type is 'people'
   getAllProfiles() {
     this.data = this.http.get<any[]>(this.url)

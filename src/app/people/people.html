@@ -5,23 +5,25 @@
  {{ cadetNurses().length }}
 <pre>{{ cadetNurses()[0] | json }}</pre> -->
 
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
 
 	<mat-tab label="Featured Profile">
-		<div class="person">
-			<h2>{{ featuredProfile().title }}</h2>
-					<p>
-					{{ featuredProfile().fields?.nursingSchool }} -
-
+		@if (featuredProfile()) {
+			<div class="person">
+				<h2>{{ featuredProfile()?.title }}</h2>
+				<p>
+					{{ featuredProfile()?.fields?.nursingSchool }} -
 					Graduated:
-					{{ featuredProfile().fieldLabels?.graduationYear }}
+					{{ featuredProfile()?.fieldLabels?.graduationYear }}
 				</p>
-				<div [innerHTML]="featuredProfile().bodyHtml"></div>
-		</div>
+				<div [innerHTML]="featuredProfile()?.bodyHtml">
+				</div>
+			</div>
+		}
 	</mat-tab>
 
   <mat-tab label="View All">
-	    @for (cadet of pagedCadetNurses(); track cadet.nid) {
+	  @for (cadet of pagedCadetNurses(); track cadet.nid) {
 			<div class="person">
 					<h3>{{ cadet.title }}</h3>
 					<p>
@@ -40,10 +42,39 @@
 		</mat-paginator>  
   </mat-tab>
 
-  <mat-tab label="Search Profiles">
-		<p>
-			To search for a profile, please use the search form below. You can search by name, nursing school, or graduation year.
-		</p>
+	<mat-tab>
+		<ng-template mat-tab-label>
+			<span (click)="resetSearchMode()">Search Profiles</span>
+		</ng-template>
+		@if (searchMode === 'search') {
+			<p>
+				To search for a profile, please use the search form below. You can search by name, nursing school, or graduation year.
+			</p>
+			<form class="form" [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+				<mat-form-field class="full-width">
+					<mat-label>Full Name</mat-label>
+					<input matInput placeholder="Ex. Smith" formControlName="Name">
+				</mat-form-field>
+				<div class="button-row">
+					<button type="submit" mat-stroked-button>
+						Submit
+					</button>
+				</div>
+			</form>
+		}
+		@if (searchMode === 'results') {
+			@if (searchedProfile()) {
+				<div class="person">
+					<h2>{{ searchedProfile()?.title }}</h2>
+					<p>
+						{{ searchedProfile()?.fields?.nursingSchool }} -
+						Graduated:
+						{{ searchedProfile()?.fieldLabels?.graduationYear }}
+					</p>
+					<div [innerHTML]="searchedProfile()?.bodyHtml"></div>
+				</div>
+			}
+		}
   </mat-tab>
 
 	<mat-tab label="Add a Profile">

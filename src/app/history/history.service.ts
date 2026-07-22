@@ -7,7 +7,7 @@ import { map } from 'rxjs';
 })
 
 export class HistoryService {
-  private url = '/data/content.json';
+  private url = 'data/content.json';
   private data: any;
 
   constructor(private http: HttpClient) {}

@@ -2,8 +2,11 @@
 	width: 100vw;
 	margin-inline: calc(50% - 50vw);
 	background:
-		linear-gradient(180deg, rgba(16, 35, 53, 0.18) 0%, rgba(16, 35, 53, 0.58) 100%),
-		url('/images/jumbotron/join-the-us-cadet-nurse-corps.jpg') center center / cover no-repeat;
+		linear-gradient(180deg, rgba(16, 35, 53, 0.18) 0%, rgba(16, 35, 53, 0.58) 100%);
+		// url('images/jumbotron/join-the-us-cadet-nurse-corps.jpg') center center / cover no-repeat;
+	background-position: center center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
 	box-sizing: border-box;
 	min-height: clamp(360px, 54vh, 520px);
 	padding: clamp(4.5rem, 9vh, 6rem) 1.5rem 3rem;

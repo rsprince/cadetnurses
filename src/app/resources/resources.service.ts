@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ResourcesService {
-  url = '/data/content.json';
+  url = 'data/content.json';
   data: any;
 
   constructor(private http: HttpClient) {}

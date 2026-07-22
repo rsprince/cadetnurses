@@ -1,17 +1,15 @@
 :host {
 	--header-height: 64px;
 	--footer-height: 64px;
-	--bg-start: #f2efe8;
-	--bg-end: #e0e8f0;
+	--bg-end: #fafaf8;
 	--ink: #102335;
 	--muted-ink: #274864;
 	--surface: rgba(255, 255, 255, 0.9);
 
-	display: block;
+	display: flex;
+	flex-direction: column;
 	min-height: 100dvh;
-	background: radial-gradient(circle at 15% 15%, #fff7e8 0%, transparent 45%),
-		radial-gradient(circle at 80% 85%, #d9e9fa 0%, transparent 40%),
-		linear-gradient(135deg, var(--bg-start), var(--bg-end));
+	background-color: var(--bg-end);
 	color: var(--ink);
 }
 
@@ -22,16 +20,16 @@
 
 .site-header,
 .site-footer {
-	position: fixed;
-	left: 0;
-	right: 0;
-	z-index: 10;
 	background: var(--surface);
-	backdrop-filter: blur(6px);
 	border-color: rgba(16, 35, 53, 0.15);
 }
 
 .site-header {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	backdrop-filter: blur(6px);
 	top: 0;
 	height: var(--header-height);
 	background: #FFD9E1;
@@ -40,7 +38,7 @@
 
 .site-footer {
 	position: relative;
-	bottom: 0;
+	margin-top: auto;
 	height: var(--footer-height);
 	border-top: 1px solid;
 	color: #FFFFFF;
@@ -113,11 +111,11 @@
 }
 
 .page.wrapper {
+	flex: 1;
 	padding-top: var(--header-height);
-	padding-bottom: var(--footer-height);
-	padding-left: 5%;
-	padding-right: 5%;
-	min-height: 100dvh;
+	padding-bottom: 1rem;
+	padding-left: 10%;
+	padding-right: 10%;
 	box-sizing: border-box;
 }
 

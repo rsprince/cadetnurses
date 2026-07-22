@@ -1,0 +1,15 @@
+<h1>Resources</h1>
+
+<p class="page-intro">
+    This page links to organizations and resources that document the history of the U.S. Cadet Nurse Corps, keeping the memory of Cadet Nurses and their contributions to the war effort and the nursing profession alive. Please contact us if you have additional resources or information to share.
+</p>
+
+<div class="resource">
+	@for (resource of resources(); track resource.nid) {
+		<div class="resource-item">
+		<h2>{{ resource.title }}</h2>
+		<div [innerHTML]="resource?.bodyHtml"></div>
+		<a href="{{ resource.urlAlias }}" target="_blank" rel="noopener noreferrer">Visit Resource</a>
+		</div>
+	} 
+</div>

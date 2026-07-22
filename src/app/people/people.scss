@@ -6,6 +6,25 @@ mat-paginator {
     margin-bottom: 5px;
 }
 
+.profile-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  font-family: inherit;
+  font-weight: 700;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-link:hover,
+.profile-link:focus-visible {
+  color: var(--mat-sys-primary);
+}
+
 .person p {
     margin-top: 2px;
 }
@@ -22,4 +41,34 @@ mat-paginator {
 
 .button-row {
   margin-top: 0.5rem;
+}
+
+.add-profile-form {
+  max-width: 980px;
+}
+
+.add-profile-form fieldset {
+  margin: 0 0 1rem;
+  min-width: 0;
+}
+
+.top-fieldsets-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.photos-fieldset {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .top-fieldsets-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .photos-fieldset {
+    width: calc((100% - 1rem) / 2);
+  }
 }

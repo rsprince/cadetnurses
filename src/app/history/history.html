@@ -3,11 +3,11 @@
  <!-- {{ aboutStory().length }}
 <pre>{{ aboutStory() | json }}</pre> -->
 
-<h1>About the US Cadet Nurse Foundation</h1>
+<h1>US Cadet Nurse Corps History</h1>
 <!--
   Guard rendering until the story object is loaded.
   This prevents null access before async data arrives.
 -->
-@if (aboutStory()) {
-  <div [innerHTML]="aboutStory()?.bodyHtml"></div>
+@if (historyStory()) {
+  <div [innerHTML]="historyStory()?.bodyHtml"></div>
 }

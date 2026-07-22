@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AboutService {
-  url = '/data/content.json';
-  data: any;
-  
+
+export class HistoryService {
+  private url = '/data/content.json';
+  private data: any;
+
   constructor(private http: HttpClient) {}
 
     getOneStory(id: number) {

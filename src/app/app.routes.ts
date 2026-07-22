@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
+import { Research } from './research/research';
 import { People } from './people/people';
 import { Home } from './home/home';
 import { About } from './about/about';
+import { Resources } from './resources/resources';
+import { History } from './history/history';
+import { News } from './news/news';
 
 export const routes: Routes = [
     // "loadComponent:" lazy-loads the standalone People component when the user visits /people.
@@ -18,7 +22,7 @@ export const routes: Routes = [
     // The Home component is included in the initial JavaScript bundle, so it can be displayed immediately when the route is activated.
     // "component:" is used for components that are included in the initial JavaScript bundle, 
     // and for eagerly loaded components.
-    {
+  {
 		path: 'home',
 		component: Home,
 	},
@@ -27,8 +31,24 @@ export const routes: Routes = [
 		redirectTo: '/home',
 		pathMatch: 'full'
 	},
-	    {
+	{
 		path: 'about',
 		component: About,
+	},
+		{
+		path: 'history',
+		component: History,
+	},
+	{
+		path: 'resources',
+		component: Resources,
+	},
+	{
+		path: 'news',
+		component: News,
+	},
+		{
+		path: 'research',
+		component: Research,
 	}
 ];

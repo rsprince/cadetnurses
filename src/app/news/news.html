@@ -1,0 +1,29 @@
+<section class="news-feed">
+	<header class="news-feed__header">
+		<p class="news-feed__eyebrow">Google News</p>
+		<h2>Cadet Nurse Corps News</h2>
+		<p>
+			Live headlines pulled from the Google News RSS search for Cadet Nurse Corps.
+		</p>
+	</header>
+
+	@if (hasNews()) {
+		<ul class="news-feed__list">
+			@for (article of newsFeed(); track article.link) {
+				<li class="news-feed__item">
+					<a class="news-feed__link" [href]="article.link" target="_blank" rel="noopener noreferrer">
+						{{ article.title }}
+					</a>
+					@if (article.description) {
+						<p class="news-feed__description">{{ article.description }}</p>
+					}
+					<p class="news-feed__meta">
+						<time [attr.datetime]="article.pubDate">{{ article.pubDate }}</time>
+					</p>
+				</li>
+			}
+		</ul>
+	} @else {
+		<p class="news-feed__empty">No news items are available right now.</p>
+	}
+</section>

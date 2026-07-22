@@ -8,6 +8,9 @@
 <mat-tab-group (selectedTabChange)="onTabChange($event)">
 
 	<mat-tab label="Featured Profile">
+		<ng-template mat-tab-label>
+			<span (click)="getFeaturedProfile()">Featured Profile</span>
+		</ng-template>
 		@if (featuredProfile()) {
 			<div class="person">
 				<h2>{{ featuredProfile()?.title }}</h2>
@@ -22,33 +25,58 @@
 		}
 	</mat-tab>
 
-  <mat-tab label="View All">
-	  @for (cadet of pagedCadetNurses(); track cadet.nid) {
-			<div class="person">
-					<h3>{{ cadet.title }}</h3>
+	<!-- View All -->
+  <mat-tab>
+		<ng-template mat-tab-label>
+			<span (click)="resetViewAllMode()">View All</span>
+		</ng-template>
+		@if(viewAllMode === 'viewAll') {
+			@for (cadet of pagedAllProfiles(); track cadet.nid) {
+				<div class="person">
+						<h3>
+							<button type="button" class="profile-link" (click)="showViewAllDetail(cadet.title)">
+								{{ cadet.title }}
+							</button>
+						</h3>
+						<p>
+							{{ cadet.fields?.nursingSchool }} -
+							Graduated:
+							{{ cadet.fieldLabels?.graduationYear }}
+						</p>
+				</div>
+			}
+			<mat-paginator [length]="allProfiles().length"
+				[pageIndex]="pageIndex()"
+				[pageSize]="pageSize()"
+				[pageSizeOptions]="[5, 10, 25, 100]"
+				(page)="onPageChange($event)"
+				aria-label="Select page">
+			</mat-paginator> 
+		}
+		<!-- Add viewAllDetail block here-->
+		@if (viewAllMode === 'viewAllDetail') {
+			@if (searchedProfile()) {
+				<div class="person">
+					<h2>{{ searchedProfile()?.title }}</h2>
 					<p>
-					{{ cadet.fields?.nursingSchool }} -
-					Graduated:
-					{{ cadet.fieldLabels?.graduationYear }}
+						{{ searchedProfile()?.fields?.nursingSchool }} -
+						Graduated:
+						{{ searchedProfile()?.fieldLabels?.graduationYear }}
 					</p>
-			</div>
-    }
-		<mat-paginator [length]="cadetNurses().length"
-			[pageIndex]="pageIndex()"
-			[pageSize]="pageSize()"
-			[pageSizeOptions]="[5, 10, 25, 100]"
-			(page)="onPageChange($event)"
-			aria-label="Select page">
-		</mat-paginator>  
+					<div [innerHTML]="searchedProfile()?.bodyHtml"></div>
+				</div>
+			}
+		} 
   </mat-tab>
 
+	<!-- Search -->
 	<mat-tab>
 		<ng-template mat-tab-label>
 			<span (click)="resetSearchMode()">Search Profiles</span>
 		</ng-template>
 		@if (searchMode === 'search') {
-			<p>
-				To search for a profile, please use the search form below. You can search by name, nursing school, or graduation year.
+			<p class="page-intro">
+				To search for a profile, please use the search form below.
 			</p>
 			<form class="form" [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
 				<mat-form-field class="full-width">
@@ -61,6 +89,7 @@
 					</button>
 				</div>
 			</form>
+			<p></p>
 		}
 		@if (searchMode === 'results') {
 			@if (searchedProfile()) {
@@ -79,8 +108,147 @@
 
 	<mat-tab label="Add a Profile">
 		<p>
-			To add a profile, please fill out the form below and submit it. Your submission will be reviewed by our team before being published on the site.
+			To add a cadet nurse profile, please fill out the form below and submit it. Your submission will be reviewed by our team before being published on the site.
 		</p>
+		<form class="form add-profile-form" novalidate>
+			<div class="top-fieldsets-row">
+				<fieldset>
+					<legend>Profile Details</legend>
+
+				<mat-form-field class="full-width">
+					<mat-label>Full Name</mat-label>
+					<input matInput id="profileFullName" name="profileFullName" type="text" autocomplete="name" required>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Last Name in Nursing School</mat-label>
+					<input matInput id="profileLastNameSchool" name="profileLastNameSchool" type="text">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Relationship Status</mat-label>
+					<select matNativeControl id="profileRelationshipStatus" name="profileRelationshipStatus" required>
+						<option value="">Select one</option>
+						<option value="cadet-nurse">Cadet Nurse</option>
+						<option value="relative">Relative of a Cadet Nurse</option>
+						<option value="friend">Friend of a Cadet Nurse</option>
+						<option value="researcher">Researcher</option>
+					</select>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Nursing School</mat-label>
+					<input matInput id="profileNursingSchool" name="profileNursingSchool" type="text">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Nursing School City</mat-label>
+					<input matInput id="profileNursingSchoolCity" name="profileNursingSchoolCity" type="text" autocomplete="address-level2">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Nursing School State</mat-label>
+					<input matInput id="profileNursingSchoolState" name="profileNursingSchoolState" type="text" autocomplete="address-level1">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Graduation Year</mat-label>
+					<input matInput id="profileGraduationYear" name="profileGraduationYear" type="number" min="1900" max="2100" inputmode="numeric">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Is the Cadet Nurse deceased?</mat-label>
+					<select matNativeControl id="profileDeceased" name="profileDeceased">
+						<option value="">Select one</option>
+						<option value="no">No</option>
+						<option value="yes">Yes</option>
+					</select>
+				</mat-form-field>
+
+					<mat-form-field class="full-width">
+						<mat-label>Profile Story</mat-label>
+						<textarea matInput id="profileStory" name="profileStory" rows="8" required></textarea>
+					</mat-form-field>
+				</fieldset>
+
+				<fieldset>
+					<legend>Submitter Contact</legend>
+
+				<mat-form-field class="full-width">
+					<mat-label>Your Full Name</mat-label>
+					<input matInput id="submitterFullName" name="submitterFullName" type="text" autocomplete="name" required>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Your Email Address</mat-label>
+					<input matInput id="submitterEmail" name="submitterEmail" type="email" autocomplete="email" required>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Your Phone Number</mat-label>
+					<input matInput id="submitterPhone" name="submitterPhone" type="tel" autocomplete="tel">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Preferred Contact Method</mat-label>
+					<select matNativeControl id="submitterPreferredContact" name="submitterPreferredContact" required>
+						<option value="">Select one</option>
+						<option value="email">Email</option>
+						<option value="phone">Phone</option>
+					</select>
+				</mat-form-field>
+
+					<mat-form-field class="full-width">
+						<mat-label>Relationship to This Profile</mat-label>
+						<input matInput id="submitterRelationship" name="submitterRelationship" type="text" required>
+					</mat-form-field>
+				</fieldset>
+			</div>
+
+			<fieldset class="photos-fieldset">
+				<legend>Photos</legend>
+
+				<label for="primaryPhoto">Primary Profile Photo</label>
+				<input id="primaryPhoto" name="primaryPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+
+				<label for="additionalPhotos">Additional Photos</label>
+				<input id="additionalPhotos" name="additionalPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+
+				<mat-form-field class="full-width">
+					<mat-label>Photo Captions</mat-label>
+					<textarea matInput id="photoCaptions" name="photoCaptions" rows="4" placeholder="Add one caption per line, in upload order."></textarea>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Photo Credits / Source</mat-label>
+					<textarea matInput id="photoCredits" name="photoCredits" rows="3" placeholder="Add one credit per line, in upload order."></textarea>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<mat-label>Approximate Photo Date(s)</mat-label>
+					<input matInput id="photoDates" name="photoDates" type="text" placeholder="Examples: 1944, June 1945, early 1950s">
+				</mat-form-field>
+			</fieldset>
+
+			<fieldset>
+				<legend>Permissions</legend>
+
+				<label>
+					<input id="permissionStory" name="permissionStory" type="checkbox" required>
+					I have permission to submit this story.
+				</label>
+
+				<label>
+					<input id="permissionPhotos" name="permissionPhotos" type="checkbox" required>
+					I have rights or permission to submit these photos.
+				</label>
+			</fieldset>
+
+			<div class="button-row">
+				<button type="button" mat-stroked-button>Submit for Review</button>
+			</div>
+		</form>
+		<!-- Add a form for adding a profile here -->
   </mat-tab>
 
 </mat-tab-group>

@@ -15,26 +15,27 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './people.scss'
 })
 export class People {
-  // cadetNurses is a signal that holds an array of any type, initialized as an empty array.
-  cadetNurses = signal<any[]>([]);
+  // allProfiles is a signal that holds an array of any type, initialized as an empty array.
+  allProfiles = signal<any[]>([]);
   featuredProfile = signal<any>(null);
 
   pageIndex = signal(0);
   pageSize = signal(5);
-  pagedCadetNurses = computed(() => {
+  pagedAllProfiles = computed(() => {
     const startIndex = this.pageIndex() * this.pageSize();
     const endIndex = startIndex + this.pageSize();
-    return this.cadetNurses().slice(startIndex, endIndex);
+    return this.allProfiles().slice(startIndex, endIndex);
   });
 
+  viewAllMode: string = 'viewAll';
 	searchMode: string = 'search';
   FormData!: FormGroup;
   searchedProfile = signal<any>(null);
 
   constructor(
-		private peopleService: PeopleService,
-	  private formBuilder: FormBuilder
-	) {}
+    private peopleService: PeopleService,
+    private formBuilder: FormBuilder
+  ) {}
 
 ngOnInit() {
 	this.getAllProfiles();
@@ -47,12 +48,12 @@ ngOnInit() {
     .subscribe({
       next: (data: any[]) => {
         console.log("Subscribed data:", data);
-        // Update the cadetNurses signal with the fetched data, 
+        // Update the allProfiles signal with the fetched data, 
         // using nullish coalescing to ensure it defaults to an empty array if data is null 
         // or undefined.
-        this.cadetNurses.set(data ?? []);
+        this.allProfiles.set(data ?? []);
         this.pageIndex.set(0);
-        console.log("cadetNurses after assignment:", this.cadetNurses());
+        console.log("allProfiles after assignment:", this.allProfiles());
       },
       error: (err: any) => {
         console.error("People Service Error:", err);
@@ -85,6 +86,11 @@ ngOnInit() {
     });
   }
 
+  resetViewAllMode() {
+		this.viewAllMode = 'viewAll';
+		this.searchedProfile.set(null);
+  }
+
   resetSearchMode() {
 		this.searchMode = 'search';
 		this.searchedProfile.set(null);
@@ -96,8 +102,15 @@ ngOnInit() {
 		this.getProfileByName(this.FormData.value.Name);
   }
 
-	getProfileByName(name: string) {
-		this.searchMode = 'results';
+  showViewAllDetail(name: string) {
+    this.viewAllMode = 'viewAllDetail';
+    this.getProfileByName(name, false);
+  }
+
+  getProfileByName(name: string, setSearchResultsMode: boolean = true) {
+    if (setSearchResultsMode) {
+      this.searchMode = 'results';
+    }
 		this.peopleService.getProfileByName(name)
 		.subscribe({
       next: (data: any) => {
@@ -119,8 +132,12 @@ ngOnInit() {
   }
 
   onTabChange(event: MatTabChangeEvent) {
-	if (event.index === 2) {
+  if (event.index === 0) {
+    this.getFeaturedProfile();
+  }
+
+  if (event.index === 2) {
     this.resetSearchMode();
-	}
+  }
   }
 }

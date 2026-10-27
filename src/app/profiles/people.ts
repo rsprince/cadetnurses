@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { PeopleService } from './services/people.service';
+import { PeopleService } from './people.service';
 import { MatTabsModule, MatTabChangeEvent } from '@angular/material/tabs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
